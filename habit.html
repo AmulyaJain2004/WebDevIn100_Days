@@ -182,7 +182,6 @@
       state.habits.forEach(h=>{h.progress = 0});
       save(); render();
     }
-
     function removeHabit(id){ state.habits = state.habits.filter(h=>h.id!=id); save(); render(); }
 
     /* ========== Rendering ========== */
