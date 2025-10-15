@@ -726,6 +726,16 @@
                 technologies: ["HTML", "CSS", "JavaScript", "Canvas"],
                 features: ["Physics Engine", "Score System", "Responsive Controls", "Space Theme"]
             },
+
+               {
+    originalDay: 38,
+    name: "ResumeCraft Websie",
+    description: "A Resumecraft website for students, professionals,etc.",
+    demoLink: "ResumeCraft.html",
+    category: "utilities",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    features: ["Clean Two-Panel Layout", "Responsive Design", "Print-Friendly Resume View"]
+},
             {
                 originalDay: 39,
                 name: "Space War Game",
