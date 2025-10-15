@@ -731,7 +731,7 @@
     originalDay: 38,
     name: "ResumeCraft Websie",
     description: "A Resumecraft website for students, professionals,etc.",
-    demoLink: "ResumeCraft.html",
+    demoLink: "resumecraft.html",
     category: "utilities",
     technologies: ["HTML", "CSS", "JavaScript"],
     features: ["Clean Two-Panel Layout", "Responsive Design", "Print-Friendly Resume View"]
