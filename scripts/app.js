@@ -1984,6 +1984,17 @@
                 technologies: ["HTML", "CSS", "Javascript", "Python"],
                 features: ["Summerizer","Txt","Doc","Pdf"]
             },
+
+
+           {
+                originalDay: 170,
+                name: "Meme Mayhem: The Ultimate Meme Battle Arena",
+                description: "A multiplayer meme showdown platform where users upload memes, vote in real-time battles, and climb the Meme Leaderboard.",
+                demoLink: "Meme.html",
+                category: "AI/ML",
+                technologies: ["HTML", "CSS", "Javascript"],
+                features: ["Meme of the Day","Dark mode toggle with meme-specific themes"]
+            },
             {
                 originalDay: 169,
                 name: "Colour Blindness Simulator",
