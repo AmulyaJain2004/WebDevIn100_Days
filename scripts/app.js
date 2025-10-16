@@ -463,6 +463,16 @@
                 technologies: ["HTML", "CSS", "JavaScript", "Canvas"],
                 features: ["Neon Graphics", "Power-ups", "Score System"]
             },
+
+          {
+                originalDay: 11,
+                name: "Escape Grid Game",
+                description: "A browser-based puzzle game where players must escape a digital maze by solving logic challenges, decoding clues, and unlocking hidden paths.",
+                demoLink: "escapegridgame.html",
+                category: "games",
+                technologies: ["HTML", "CSS", "JavaScript", "Canvas"],
+                features: ["- Dynamic grid generation", "- Interactive puzzles", "Score System"]
+            },
             {
                 originalDay: 11,
                 name: "Weather App",
