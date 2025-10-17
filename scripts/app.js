@@ -843,7 +843,7 @@
                 demoLink: "attendance.html",
                 category: "education",
                 technologies: ["HTML", "CSS", "JavaScript"],
-                features: ["attendance tracker for students", "Present/Absent", "Progress Report", ""]
+                features: ["attendance tracker for students", "Present/Absent", "Progress Report"]
              },
          
             {
