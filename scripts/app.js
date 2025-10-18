@@ -409,6 +409,16 @@
                 technologies: ["HTML", "CSS", "JavaScript"],
                 features: ["Strength Analysis", "Visual Feedback", "Security Tips"]
             },
+
+           {
+                originalDay: 5,
+                name: "Health Checkup Appointement",
+                description: "A Website Built For Doctors , Patients, and Admin.",
+                demoLink: "patient.html",
+                category: "utilities",
+                technologies: ["HTML", "CSS", "JavaScript"],
+                features: [" Appointment Booking System", "Dashboard", "Chatbot Assistant 🤖"]
+            },
             {
                 originalDay: 5,
                 name: "Physics Simulation",
