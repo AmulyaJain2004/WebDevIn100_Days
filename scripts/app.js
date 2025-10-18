@@ -391,6 +391,16 @@
                 technologies: ["HTML", "CSS", "JavaScript"],
                 features: ["Real-time Updates", "Multiple Formats", "Theme Options"]
             },
+
+                     {
+                originalDay: 2,
+                name: "Time Traveler",
+                description: "An interactive timeline of web history (or any topic), where users scroll through decades and see animated events, code snippets, and trivia.",
+                demoLink: "time.html",
+                category: "utilities",
+                technologies: ["HTML", "CSS", "JavaScript"],
+                features: ["Real-time Updates", "Dynamic content loading"]
+            },
             {
                 originalDay: 3,
                 name: "ASCII Art Generator",
