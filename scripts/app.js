@@ -392,6 +392,16 @@
                 features: ["Real-time Updates", "Multiple Formats", "Theme Options"]
             },
 
+         {
+                originalDay: 2,
+                name: "Emoji architact",
+                description: "Let users build custom emoji combos using Unicode characters, drag-and-drop positioning, and styling. ",
+                demoLink: "emoji.html",
+                category: "utilities",
+                technologies: ["HTML", "CSS", "JavaScript"],
+                features: ["Drag-and-drop UI", "Canvas or SVG rendering", "Fun, technical, and unique"]
+            },
+
                      {
                 originalDay: 2,
                 name: "Time Traveler",
