@@ -865,6 +865,17 @@
                 technologies: ["HTML", "CSS", "JavaScript"],
                 features: ["Two Player Mode", "Win Detection", "Interactive Grid", "Game Reset"]
             },
+
+         {
+                originalDay: 49,
+                name: "Attendance Tracker Website",
+                description: "attendance tracker website is a website for tracking the attendance of students/professionals etc",
+                demoLink: "attendance.html",
+                category: "education",
+                technologies: ["HTML", "CSS", "JavaScript"],
+                features: ["attendance tracker for students", "Present/Absent", "Progress Report"]
+             },
+         
             {
                 originalDay: 50,
                 name: "Budget Tracker",
