@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkillSprint — Train Smart. Get Hired.</title>
+  <meta name="description" content="SkillSprint — responsive frontend training portal mock built with HTML/CSS/JS. Role-based course recommendations, resource library, mock tests, and progress dashboard." />
+  <style>
+    /* ========== RESET & BASE ========== */
+    :root{
+      --bg:#0f1724; /* dark navy */
+      --card:#0b1220;
+      --muted:#9aa7bf;
+      --accent:#60a5fa;
+      --success:#34d399;
+      --glass:rgba(255,255,255,0.04);
+      --glass-2:rgba(255,255,255,0.02);
+      --max-width:1100px;
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071021 0%,var(--bg) 100%);color:#e6eef8}
+    a{color:inherit}
+    .container{max-width:var(--max-width);margin:28px auto;padding:20px}
+
+    /* ========== HERO ========== */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:22px}
+    .hero-card{background:linear-gradient(180deg,var(--glass),transparent);border-radius:18px;padding:28px;box-shadow:0 6px 30px rgba(2,6,23,0.6);backdrop-filter:blur(6px)}
+    .tagline{font-size:28px;line-height:1.05;margin:0 0 12px}
+    .tagline .accent{background:linear-gradient(90deg,var(--accent),#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);margin-bottom:18px}
+    .role-select{display:flex;gap:8px;flex-wrap:wrap}
+    .role-btn{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--muted)}
+    .role-btn.active{border-color:var(--accent);color:var(--accent);box-shadow:0 6px 20px rgba(96,165,250,0.08);transform:translateY(-3px)}
+
+    /* ========== GRID ========== */
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+
+    /* ========== COURSE CARDS ========== */
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .card{background:var(--card);padding:14px;border-radius:12px;transition:transform .22s ease,box-shadow .22s;cursor:pointer;border:1px solid var(--glass-2)}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(2,6,23,0.6)}
+    .card h4{margin:0 0 6px;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .card .tags{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+    .chip{font-size:12px;padding:6px 8px;border-radius:999px;border:1px solid var(--glass);color:var(--muted)}
+
+    /* ========== RESOURCES ========== */
+    .resources{background:var(--card);padding:14px;border-radius:12px}
+    .resource-list{display:flex;flex-direction:column;gap:10px}
+    .resource-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;border:1px solid var(--glass-2)}
+    .resource-item .meta{display:flex;gap:12px;align-items:center}
+    .resource-item .meta strong{font-size:14px}
+    .resource-item small{color:var(--muted)}
+
+    /* ========== DASHBOARD ========== */
+    .dash{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:12px}
+    .progress{display:flex;flex-direction:column;gap:12px}
+    .progress-row{display:flex;align-items:center;justify-content:space-between}
+    .bar{background:var(--glass-2);height:10px;border-radius:999px;flex:1;margin-left:12px;overflow:hidden}
+    .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);width:0}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:13px}
+
+    /* ========== MODALS ========== */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:999}
+    .modal{background:#071326;padding:18px;border-radius:12px;max-width:760px;width:92%;box-shadow:0 20px 60px rgba(3,8,20,0.8)}
+
+    /* ========== QUIZ ========== */
+    .quiz-question{font-weight:600;margin-bottom:12px}
+    .options{display:flex;flex-direction:column;gap:10px}
+    .option{padding:12px;border-radius:10px;border:1px solid var(--glass-2);cursor:pointer}
+    .option.selected{border-color:var(--accent);background:linear-gradient(90deg,rgba(96,165,250,0.06),transparent)}
+    .timer{font-size:13px;color:var(--muted)}
+
+    /* ========== FOOTER & RESPONSIVE ========== */
+    footer{color:var(--muted);text-align:center;margin-top:18px}
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:520px){
+      .tagline{font-size:20px}
+      .hero-card{padding:16px}
+    }
+
+    /* subtle entrance animation */
+    .fade-up{transform:translateY(8px);opacity:0;animation:fadeUp .6s forwards}
+    @keyframes fadeUp{to{transform:none;opacity:1}}
+
+    /* accessibility focus */
+    .role-btn:focus,.card:focus,.option:focus{outline:2px solid rgba(96,165,250,0.18);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-card fade-up" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="tagline">Train <span class="accent">Smart</span>. Get Hired.</h1>
+        <p class="sub">SkillSprint is a mock training portal that recommends courses, offers resources, and runs mock tests — all in the browser. Choose a role to get started.</p>
+
+        <div>
+          <div style="margin-bottom:8px;color:var(--muted);font-size:13px">Target role</div>
+          <div class="role-select" id="roleSelect" role="tablist" aria-label="Roles"></div>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="saveProgressBtn" class="role-btn">Save Progress</button>
+          <button id="startTestBtn" class="role-btn">Start Mock Test</button>
+        </div>
+      </div>
+
+      <div class="hero-card fade-up" aria-hidden="false">
+        <h3 style="margin:0 0 8px">Quick Tips</h3>
+        <ul style="margin:0;padding-left:18px;color:var(--muted)">
+          <li>Pick a role, follow the recommended courses.</li>
+          <li>Use the resources to practice daily.</li>
+          <li>Take timed mocks and track progress on the dashboard.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid">
+      <main>
+        <section aria-labelledby="courses-heading" style="margin-bottom:18px">
+          <h2 id="courses-heading" style="margin:6px 0 12px">Recommended Courses</h2>
+          <div class="cards" id="coursesGrid" aria-live="polite"></div>
+        </section>
+
+        <section aria-labelledby="resources-heading" class="resources">
+          <h3 id="resources-heading" style="margin:0 0 10px">Resource Library</h3>
+          <div class="resource-list" id="resourceList"></div>
+        </section>
+      </main>
+
+      <aside>
+        <div class="dash">
+          <h3 style="margin:0 0 12px">Progress Dashboard</h3>
+          <div class="progress">
+            <div class="progress-row">
+              <div>Modules completed</div>
+              <div style="min-width:120px;display:flex;align-items:center">
+                <strong id="modulesCompleted">0</strong>
+                <div class="bar" style="margin-left:10px"><i id="modulesBar"></i></div>
+              </div>
+            </div>
+
+            <div class="progress-row">
+              <div>Best mock score</div>
+              <div><strong id="bestScore">—</strong></div>
+            </div>
+
+            <div style="margin-top:8px">
+              <div style="color:var(--muted);font-size:13px;margin-bottom:8px">Achievements</div>
+              <div class="badges" id="badgeList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="dash">
+          <h4 style="margin:0 0 8px">Quick Actions</h4>
+          <div style="display:flex;gap:8px;flex-direction:column">
+            <button id="resetBtn" class="role-btn">Reset Progress</button>
+            <button id="viewReportBtn" class="role-btn">View Last Test Report</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>Built with ❤️ using pure frontend tech — HTML, CSS, JS. LocalStorage powers progress tracking.</small>
+    </footer>
+  </div>
+
+  <!-- Modal container -->
+  <div id="modalRoot" aria-live="assertive"></div>
+
+  <script>
+    /* ========== Sample DATA ========== */
+    const ROLES = [
+      { id:'dev', label:'Software Developer', skills:['DSA','System Design','Web'], desc:'Focus: Algorithms, System Design, Web fundamentals.'},
+      { id:'analyst', label:'Data Analyst', skills:['SQL','Statistics','Excel'], desc:'Focus: Data cleaning, SQL, Excel & visualization.'},
+      { id:'designer', label:'Product Designer', skills:['Figma','UX','Prototyping'], desc:'Focus: UX, UI patterns, prototyping.'},
+      { id:'qa', label:'QA Engineer', skills:['Testing','Automation','Scripting'], desc:'Focus: Testing strategies and automation.'}
+    ];
+
+    const COURSES = {
+      dev:[
+        {title:'DSA Masterclass',desc:'Arrays, Strings, Trees, Graphs with practice problems.' ,tags:['Algorithms','Coding']},
+        {title:'Web Fundamentals',desc:'HTML, CSS, JS and modern browser APIs.',tags:['Frontend','JavaScript']},
+        {title:'System Design Intro',desc:'Design scalable services and read architecture diagrams.',tags:['Design','Scalability']}
+      ],
+      analyst:[
+        {title:'SQL for Analysts',desc:'Practical SQL for real datasets.',tags:['SQL','Analytics']},
+        {title:'Statistics & A/B Testing',desc:'Basics of statistics used in product decisions',tags:['Stats','Experiment']},
+        {title:'Data Viz with Python',desc:'Pandas + Matplotlib for reports',tags:['Python','Visualization']}
+      ],
+      designer:[
+        {title:'UX Foundations',desc:'Design thinking and user research.',tags:['UX','Research']},
+        {title:'Figma UI Kit',desc:'Hands-on UI components & prototyping',tags:['Figma','Prototyping']},
+        {title:'Portfolio Crafting',desc:'Build a hiring-ready portfolio',tags:['Portfolio','Career']}
+      ],
+      qa:[
+        {title:'Manual Testing Practices',desc:'Test cases, bug reporting & test plans',tags:['Manual','Processes']},
+        {title:'Automation with JS',desc:'Scripting UI tests with Puppeteer',tags:['Automation','Scripting']},
+        {title:'CI/CD for QA',desc:'Integrate tests into pipelines',tags:['CI/CD','Practices']}
+      ]
+    };
+
+    const RESOURCES = [
+      {title:'Aptitude Practice — PDF',type:'Aptitude',link:'#',note:'Sample questions'},
+      {title:'Top 200 DSA Problems',type:'Coding',link:'#',note:'Curated list'},
+      {title:'Behavioral Interview Guide',type:'Communication',link:'#',note:'STAR method samples'},
+      {title:'Mock Interview Script',type:'Interview',link:'#',note:'How to present projects'}
+    ];
+
+    const QUIZ_BANK = [
+      {q:'What is the time complexity of binary search?',choices:['O(n)','O(log n)','O(n log n)','O(1)'],a:1},
+      {q:'Which HTML tag is semantic for navigation?',choices:['<div>','<nav>','<section>','<span>'],a:1},
+      {q:'SQL: Which clause filters rows?',choices:['WHERE','GROUP BY','ORDER BY','SELECT'],a:0},
+      {q:'In JS, which method creates a new array by calling a function on every element?',choices:['map','forEach','filter','reduce'],a:0},
+      {q:'Which CSS property controls layout in one dimension?',choices:['grid','flex-direction','flex','display'],a:2}
+    ];
+
+    /* ========== LOCAL STORAGE KEYS & STATE ========== */
+    const STORAGE_KEY = 'skillsprint:v1';
+    const defaultState = {
+      selectedRole:'dev',
+      modulesCompleted:0,
+      bestScore:null,
+      badges:[],
+      lastReport:null
+    };
+
+    let state = loadState();
+
+    /* ========== HELPERS ========== */
+    function loadState(){
+      try{
+        const raw=localStorage.getItem(STORAGE_KEY);
+        if(!raw) return {...defaultState};
+        return {...defaultState,...JSON.parse(raw)};
+      }catch(e){console.error('load error',e);return {...defaultState};}
+    }
+    function saveState(){
+      try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){console.error('save failed',e)}
+    }
+
+    /* ========== RENDERING: ROLES ========== */
+    const roleSelect = document.getElementById('roleSelect');
+    function renderRoles(){
+      roleSelect.innerHTML='';
+      ROLES.forEach(r=>{
+        const btn=document.createElement('button');
+        btn.className='role-btn';
+        btn.setAttribute('role','tab');
+        btn.setAttribute('aria-selected', r.id===state.selectedRole);
+        btn.textContent=r.label;
+        if(r.id===state.selectedRole) btn.classList.add('active');
+        btn.onclick=()=>{state.selectedRole=r.id; saveState(); updateUI();}
+        roleSelect.appendChild(btn);
+      })
+    }
+
+    /* ========== RENDER COURSES ========== */
+    const coursesGrid = document.getElementById('coursesGrid');
+    function renderCourses(){
+      const list = COURSES[state.selectedRole] || [];
+      coursesGrid.innerHTML='';
+      list.forEach((c, idx)=>{
+        const card = document.createElement('article');
+        card.className='card';
+        card.tabIndex=0;
+        card.innerHTML=`<h4>${c.title}</h4><p>${c.desc}</p>`;
+        const tags = document.createElement('div'); tags.className='tags';
+        c.tags.forEach(t=>{const tspan=document.createElement('span');tspan.className='chip';tspan.textContent=t;tags.appendChild(tspan)});
+        card.appendChild(tags);
+        card.onclick = ()=>{ // simulate opening course module
+          state.modulesCompleted = Math.min(10, state.modulesCompleted + 1);
+          if(state.modulesCompleted >= 5 && !state.badges.includes('Learner')) state.badges.push('Learner');
+          saveState(); updateUI(); flashMessage(`Completed a module: ${c.title}`);
+        }
+        coursesGrid.appendChild(card);
+      })
+    }
+
+    /* ========== RENDER RESOURCES ========== */
+    const resourceList = document.getElementById('resourceList');
+    function renderResources(){
+      resourceList.innerHTML='';
+      RESOURCES.forEach(r=>{
+        const item = document.createElement('div');
+        item.className='resource-item';
+        item.innerHTML = `<div class="meta"><div><strong>${r.title}</strong><div style="font-size:12px;color:var(--muted)">${r.type} • ${r.note}</div></div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <a href="${r.link}" onclick="event.preventDefault();openResource('${r.title}')" class="role-btn">Open</a>
+          </div>`;
+        resourceList.appendChild(item);
+      })
+    }
+
+    function openResource(title){
+      // For the demo, show a quick modal with sample content
+      openModal(`Resource — ${title}`, `<p style='color:var(--muted)'>This is a simulated resource viewer for <strong>${title}</strong>. In a real site this would link to external study material (PDFs, videos, repos).</p>
+        <p><small>Tip: practice consistently, 30–60 minutes daily beats marathon sessions.</small></p>`);
+    }
+
+    /* ========== DASHBOARD UI ========== */
+    function renderDashboard(){
+      document.getElementById('modulesCompleted').textContent = state.modulesCompleted;
+      const pct = Math.min(100, Math.round((state.modulesCompleted/10)*100));
+      document.getElementById('modulesBar').style.width = pct + '%';
+      document.getElementById('bestScore').textContent = state.bestScore===null ? '—' : state.bestScore + '%';
+      const badgeList = document.getElementById('badgeList'); badgeList.innerHTML='';
+      state.badges.forEach(b=>{const el=document.createElement('div');el.className='badge';el.textContent=b;badgeList.appendChild(el)})
+    }
+
+    /* ========== MODAL HELPERS ========== */
+    const modalRoot = document.getElementById('modalRoot');
+    function openModal(title, htmlContent, opts={}){
+      modalRoot.innerHTML = '';
+      const backdrop = document.createElement('div'); backdrop.className='modal-backdrop';
+      backdrop.onclick = (e)=>{ if(e.target===backdrop) closeModal(); }
+      const modal = document.createElement('div'); modal.className='modal';
+      modal.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3 style="margin:0">${title}</h3>
+          <button aria-label="Close" id="modalClose" class="role-btn">Close</button>
+        </div>
+        <div>${htmlContent}</div>`;
+      backdrop.appendChild(modal);
+      modalRoot.appendChild(backdrop);
+      document.getElementById('modalClose').onclick = closeModal;
+    }
+    function closeModal(){ modalRoot.innerHTML=''; }
+
+    /* ========== FLASH MESSAGE ========== */
+    function flashMessage(msg){
+      const el = document.createElement('div');
+      el.style.position='fixed';el.style.left='50%';el.style.transform='translateX(-50%)';el.style.bottom='24px';el.style.background='linear-gradient(90deg,var(--accent),#7c3aed)';el.style.color='#042';el.style.padding='10px 14px';el.style.borderRadius='10px';el.style.boxShadow='0 10px 30px rgba(2,6,23,0.6)';el.style.zIndex=1200;el.textContent=msg;document.body.appendChild(el);
+      setTimeout(()=>el.style.opacity=0,2300);setTimeout(()=>el.remove(),3000);
+    }
+
+    /* ========== MOCK TEST SYSTEM ==========
+       - Randomize questions from QUIZ_BANK
+       - Timer per quiz
+       - Save report to localStorage
+    */
+    function startMockTest(durationSeconds=120, numQ=4){
+      const questions = shuffleArray(QUIZ_BANK).slice(0,numQ).map((q,idx)=>({...q,id:idx}));
+      let current = 0; let score=0; let answers = [];
+
+      function renderQuestion(){
+        const q = questions[current];
+        const content = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><div class="quiz-question">Q${current+1}. ${escapeHtml(q.q)}</div><div class="timer" id="quizTimer">Time left: <strong>${formatTime(remaining)}</strong></div></div>
+            <div><small style='color:var(--muted)'>${current+1} / ${questions.length}</small></div>
+          </div>
+          <div class="options" id="options">${q.choices.map((c,i)=>`<div tabindex="0" role="button" class="option" data-index="${i}">${escapeHtml(c)}</div>`).join('')}</div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px">
+            <button id="prevQ" class="role-btn">Previous</button>
+            <div style="display:flex;gap:8px"><button id="quitTest" class="role-btn">Quit</button><button id="nextQ" class="role-btn">${current===questions.length-1? 'Submit' : 'Next'}</button></div>
+          </div>
+        `;
+        openModal('Mock Test', content);
+
+        // wire up options
+        document.querySelectorAll('.option').forEach(opt=>{
+          opt.onclick = ()=>selectOption(parseInt(opt.dataset.index));
+        });
+        document.getElementById('prevQ').onclick = ()=>{ if(current>0){current--; resetTimer(); renderQuestion();} };
+        document.getElementById('quitTest').onclick = ()=>{ if(confirm('Quit the mock test? Your progress will not be saved.')){ closeModal(); } };
+        document.getElementById('nextQ').onclick = ()=>{ if(current===questions.length-1){ finishTest(); } else { current++; resetTimer(); renderQuestion(); } };
+
+        // mark previously selected
+        const a = answers[current]; if(typeof a !== 'undefined'){ const sel = document.querySelector(`.option[data-index="${a}"]`); if(sel) sel.classList.add('selected'); }
+      }
+
+      function selectOption(idx){
+        // record answer
+        answers[current] = idx;
+        // toggle selected class
+        document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+        const sel=document.querySelector(`.option[data-index="${idx}"]`); if(sel) sel.classList.add('selected');
+      }
+
+      function finishTest(){
+        // calculate score
+        questions.forEach((q,i)=>{ if(answers[i]===q.a) score++; });
+        const percent = Math.round((score/questions.length)*100);
+        // update state
+        state.bestScore = state.bestScore===null ? percent : Math.max(state.bestScore, percent);
+        state.lastReport = {date:new Date().toISOString(),score:percent,correct:score,total:questions.length};
+        if(percent>=80 && !state.badges.includes('Top Scorer')) state.badges.push('Top Scorer');
+        saveState(); updateUI(); closeModal();
+        openModal('Test Report', `<p style='color:var(--muted)'>You scored <strong>${percent}%</strong> (${score}/${questions.length}).</p>
+          <p><small>Saved to dashboard. Keep practicing to improve your best score.</small></p>`);
+      }
+
+      /* ===== Timer logic ===== */
+      let remaining = durationSeconds; let timerHandle=null;
+      function tick(){
+        remaining--;
+        const el = document.getElementById('quizTimer'); if(el) el.innerHTML = `Time left: <strong>${formatTime(remaining)}</strong>`;
+        if(remaining<=0){ clearInterval(timerHandle); finishTest(); }
+      }
+      function resetTimer(){ remaining = durationSeconds; if(timerHandle) clearInterval(timerHandle); timerHandle = setInterval(tick,1000); }
+
+      resetTimer(); renderQuestion();
+    }
+
+    /* ========== UTILITIES ========== */
+    function shuffleArray(arr){ return arr.slice().sort(()=>Math.random()-0.5); }
+    function formatTime(s){ const m=Math.floor(s/60); const sec=s%60; return `${m}:${sec.toString().padStart(2,'0')}` }
+    function escapeHtml(s){ return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* ========== UI: ACTIONS & EVENTS ========== */
+    document.getElementById('startTestBtn').onclick = ()=>startMockTest(120,4);
+    document.getElementById('saveProgressBtn').onclick = ()=>{ saveState(); flashMessage('Progress saved locally') };
+    document.getElementById('resetBtn').onclick = ()=>{ if(confirm('Clear saved progress?')){ state = {...defaultState}; saveState(); updateUI(); flashMessage('Progress reset'); } };
+    document.getElementById('viewReportBtn').onclick = ()=>{
+      if(!state.lastReport) return openModal('Last Report','<p style="color:var(--muted)">No tests taken yet.</p>');
+      openModal('Last Report',`<p style='color:var(--muted)'>Date: <strong>${new Date(state.lastReport.date).toLocaleString()}</strong></p>
+        <p style='color:var(--muted)'>Score: <strong>${state.lastReport.score}%</strong> (${state.lastReport.correct}/${state.lastReport.total})</p>`)
+    };
+
+    document.getElementById('roleSelect').addEventListener('keydown', (e)=>{
+      // keyboard quick select (1-4) for roles
+      if(e.key >= '1' && e.key <= String(ROLES.length)){
+        const idx = parseInt(e.key)-1; state.selectedRole = ROLES[idx].id; saveState(); updateUI();
+      }
+    });
+
+    /* ========== INITIALIZE UI ========== */
+    function updateUI(){ renderRoles(); renderCourses(); renderResources(); renderDashboard(); }
+    updateUI();
+
+    // small accessibility: ensure focusable containers
+    document.querySelectorAll('.card').forEach(c=>c.setAttribute('tabindex',0));
+
+    // quick helper to show demo content when file loaded
+    console.log('SkillSprint demo loaded — role:', state.selectedRole);
+  </script>
+</body>
+</html>
