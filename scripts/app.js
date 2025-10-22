@@ -456,6 +456,16 @@
                 technologies: ["HTML", "CSS", "JavaScript"],
                 features: ["Real-time Counting", "Statistics", "Word Analysis"]
             },
+
+         {
+                originalDay: 8,
+                name: "SkillSprint",
+                description: "🚀 SkillSprint is an interactive, role-based placement prep website that helps students train smart with tailored courses, resources, and mock tests — all built using pure frontend technologies.",
+                demoLink: "skill.html",
+                category: "utilities",
+                technologies: ["HTML", "CSS", "JavaScript"],
+                features: ["🎯 Role-based Course Recommendations", "🧩 Mock Test Simulator", "📈 Progress Dashboard"]
+            },
             {
                 originalDay: 8,
                 name: "Dice Roll Simulator",
